@@ -1,11 +1,17 @@
 import json, requests, sys
 
+# ----------------------------------------------------------------------------------------------------
+# "Universal" variables
+
 _json_configuration_file = "conf.json"
 _unspecified_json_warning = "No JSON config was specified. Defaulting to"
 _request_decode_format = "utf-8"
 _request_not_found_continue_code = 429
 
 config = False
+
+# ----------------------------------------------------------------------------------------------------
+# Functions
 
 def get_json (location):
 	try:
@@ -15,6 +21,8 @@ def get_json (location):
 		while request.status_code == _request_not_found_continue_code:
 			request = requests.get(location)
 		return json.loads(request.content.decode(_request_decode_format))
+
+# ----------------------------------------------------------------------------------------------------
 
 try:
 	_json_configuration_file = sys.argv[1]

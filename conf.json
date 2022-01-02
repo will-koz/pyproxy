@@ -1,0 +1,30 @@
+{
+	"__json_comment__": "JSON does not support comments, so comments will be in the fields named '__json_comment__', '__json_comment2__', etc...",
+
+	"paper": {
+		"__json_comment__": "This is supposed to be printed on copy paper, but if a different PDF size is desired it can be easily created",
+		"width": 8.5,
+		"height": 11
+	},
+
+	"card": {
+		"__json_comment__": "MTG Cards use this size. I'm pretty sure Pokemon and Yu-Gi-Oh use it, too",
+		"width": 3.5,
+		"height": 2.5
+	},
+
+	"print": {
+		"__json_comment__": "If you wanted to limit the amount of cards printed on a page, it would be done here:",
+		"max_cols": -1,
+		"max_rows": -1,
+		"print_mode": 1,
+		"__json_comment2__": "print_mode 0: upper-left, print_mode 1: center, print_mode 2: lower-right"
+	},
+
+	"api": {
+		"__json_comment__": "This application uses the Scryfall API, which is a REST API for Magic: The Gathering",
+		"prefix": "https://api.scryfall.com/cards/search?q=!\"",
+		"infix": "+",
+		"postfix": "\"&unique=art"
+	}
+}

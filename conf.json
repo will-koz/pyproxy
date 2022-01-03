@@ -25,6 +25,7 @@
 		"__json_comment__": "This application uses the Scryfall API, which is a REST API for Magic: The Gathering",
 		"infix": "+",
 		"infix_replace": " ",
+		"image_status_text": "highres_scan",
 		"postfix": "\"&unique=art",
 		"prefix": "https://api.scryfall.com/cards/search?q=!\""
 	}

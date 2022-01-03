@@ -25,9 +25,11 @@ def get_json (location):
 
 def get_card_image_from_api (card_name, api_config = False):
 	if api_config == False:
-		api_config = config.api
-	json_array = get_json(config.api.prefix + card_name.replace(config.api.infix_replace, config.api.infix) + config.api.postfix)
-	print(json_array)
+		api_config = config["api"]
+	json_array = get_json(api_config["prefix"] + card_name.replace(api_config["infix_replace"], api_config["infix"]) + api_config["postfix"])["data"]
+	for card_object in json_array:
+		if card_object["image_status"] == api_config["image_status_text"]:
+			return card_object["image_uris"]["large"]
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -37,4 +39,4 @@ except:
 	print(_unspecified_json_warning, _json_configuration_file)
 config = get_json(_json_configuration_file)
 
-print(config)
+get_card_image_from_api ("Sol Ring")

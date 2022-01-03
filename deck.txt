@@ -67,7 +67,7 @@
 1 Great Furnace
 1 Izzet Boilerworks
 1 Myriad Landscape
-1 Path of Ancestry
+Path of Ancestry
 1 Rogue's Passage
 7 Island
 8 Mountain ~https://c1.scryfall.com/file/scryfall-cards/large/front/3/b/3ba24a61-e529-4490-8536-6276ea77c511.jpg?1637115137

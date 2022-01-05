@@ -1,13 +1,14 @@
-import json, requests, sys
+import json, requests, sys, time
 
 # ----------------------------------------------------------------------------------------------------
 # "Universal" variables
 
+_deck_split_character = "\n"
 _json_configuration_file = "conf.json"
 _unspecified_json_warning = "No JSON config was specified. Defaulting to"
 _request_decode_format = "utf-8"
+_request_delay = 100 / 1000
 _request_not_found_continue_code = 429
-_deck_split_character = "\n"
 
 config = False
 imagedb = False
@@ -33,6 +34,7 @@ def atoi (x):
 def get_card_image_from_api (card_name, api_config = False):
 	if api_config == False:
 		api_config = config["api"]
+	time.sleep(_request_delay)
 	json_array = get_json(api_config["prefix"] + card_name.replace(api_config["infix_replace"], api_config["infix"]) + api_config["postfix"])["data"]
 	for card_object in json_array:
 		if card_object["image_status"] == api_config["image_status_text"]:
@@ -51,6 +53,7 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 		tmp_image_datum.append(count if count > 0 else 1)
 		if count > 0:
 			card = " ".join(card.split(" ")[1:])
+		print(card)
 		if card.split(" ")[-1][0] == ic:
 			" ".join(card)
 			tmp_image_datum.append(card.split(" ")[-1][1:-1])

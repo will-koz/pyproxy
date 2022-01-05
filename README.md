@@ -14,3 +14,11 @@ In the demomonstration deck, demo.txt, two files I did not create are explicitly
 - [Negate](https://i.pinimg.com/originals/ba/e4/e5/bae4e5787efedb0e7ffdcaa66bf0de3b.png)
 
 But of course, credit goes to the artists of all of the cards, Wizards of the Coast, and Scryfall.com.
+
+## TODO List
+
+- [x] Add delay to API Requests
+- [ ] Load images
+- [ ] Create PDFs with Pillow
+- [ ] Export PDFs
+- [ ] Add CLI Options / Clean Up Code / Add Comments

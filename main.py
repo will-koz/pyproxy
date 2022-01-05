@@ -47,12 +47,16 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 	for card in deck:
 		tmp_image_datum = []
 		count = atoi(card.split(" ")[0])
+		" ".join(card)
 		tmp_image_datum.append(count if count > 0 else 1)
-		if count < 0:
-			count = count.split(" ")[1:-1]
+		if count > 0:
+			card = " ".join(card.split(" ")[1:])
 		if card.split(" ")[-1][0] == ic:
+			" ".join(card)
 			tmp_image_datum.append(card.split(" ")[-1][1:-1])
-		else
+		else:
+			" ".join(card)
+			tmp_image_datum.append(get_card_image_from_api(card))
 
 # ----------------------------------------------------------------------------------------------------
 

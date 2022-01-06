@@ -30,6 +30,7 @@
 		"infix_replace": " ",
 		"image_status_text": "highres_scan",
 		"postfix": "\"&unique=art",
-		"prefix": "https://api.scryfall.com/cards/search?q=!\""
+		"prefix": "https://api.scryfall.com/cards/search?q=!\"",
+		"tmp": "/tmp/pyproxy"
 	}
 }

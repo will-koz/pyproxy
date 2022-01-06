@@ -47,6 +47,7 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 	if ic == False:
 		ic = config["image_character"]
 	deck = open(deck).read().split(_deck_split_character)[:-1]
+	db = []
 	for card in deck:
 		tmp_image_datum = []
 		count = atoi(card.split(" ")[0])
@@ -61,6 +62,7 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 		else:
 			" ".join(card)
 			tmp_image_datum.append(get_card_image_from_api(card))
+		db.append(tmp_image_datum)
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -71,3 +73,6 @@ except:
 config = get_json(_json_configuration_file)
 
 parse_deck_to_image_db()
+
+for card in imagedb:
+	print(card[1])

@@ -18,7 +18,7 @@ But of course, credit goes to the artists of all of the cards, Wizards of the Co
 ## TODO List
 
 - [x] Add delay to API Requests
-- [ ] Load images
+- [x] Load images
 - [ ] Create PDFs with Pillow
 - [ ] Export PDFs
 - [ ] Add CLI Options / Clean Up Code / Add Comments

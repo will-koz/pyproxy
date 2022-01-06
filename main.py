@@ -1,5 +1,5 @@
 from PIL import Image
-import json, requests, sys, time
+import json, requests, sys, time, urllib.request
 
 # ----------------------------------------------------------------------------------------------------
 # "Universal" variables
@@ -12,7 +12,7 @@ _request_delay = 100 / 1000
 _request_not_found_continue_code = 429
 
 config = False
-imagedb = False
+imagedb = []
 
 # ----------------------------------------------------------------------------------------------------
 # Functions
@@ -25,6 +25,13 @@ def get_json (location):
 		while request.status_code == _request_not_found_continue_code:
 			request = requests.get(location)
 		return json.loads(request.content.decode(_request_decode_format))
+
+def get_image (location):
+	try:
+		return Image.open(location)
+	except FileNotFoundError:
+		urllib.request.urlretrieve(location, config["api"]["tmp"])
+		return Image.open(config["api"]["tmp"])
 
 def atoi (x):
 	try:
@@ -47,7 +54,7 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 	if ic == False:
 		ic = config["image_character"]
 	deck = open(deck).read().split(_deck_split_character)[:-1]
-	db = []
+	db.clear()
 	for card in deck:
 		tmp_image_datum = []
 		count = atoi(card.split(" ")[0])
@@ -58,7 +65,7 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 		print(card)
 		if card.split(" ")[-1][0] == ic:
 			" ".join(card)
-			tmp_image_datum.append(card.split(" ")[-1][1:-1])
+			tmp_image_datum.append(card.split(" ")[-1][1:])
 		else:
 			" ".join(card)
 			tmp_image_datum.append(get_card_image_from_api(card))
@@ -73,6 +80,3 @@ except:
 config = get_json(_json_configuration_file)
 
 parse_deck_to_image_db()
-
-for card in imagedb:
-	print(card[1])

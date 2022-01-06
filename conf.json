@@ -31,6 +31,6 @@
 		"image_status_text": "highres_scan",
 		"postfix": "\"&unique=art",
 		"prefix": "https://api.scryfall.com/cards/search?q=!\"",
-		"tmp": "/tmp/pyproxy"
+		"tmp": "img.png"
 	}
 }

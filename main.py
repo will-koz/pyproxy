@@ -1,5 +1,5 @@
 from PIL import Image
-import json, requests, sys, time, urllib.request
+import json, os, requests, sys, time, urllib.request
 
 # ----------------------------------------------------------------------------------------------------
 # "Universal" variables
@@ -80,3 +80,8 @@ except:
 config = get_json(_json_configuration_file)
 
 parse_deck_to_image_db()
+
+for card in imagedb:
+	get_image(card[1]).show()
+
+os.remove(config["api"]["tmp"])

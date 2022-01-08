@@ -13,8 +13,9 @@ _request_not_found_continue_code = 429
 
 config = False
 imagedb = []
-
 dimensions = []
+
+outputPDF = []
 
 # ----------------------------------------------------------------------------------------------------
 # Functions

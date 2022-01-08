@@ -18,6 +18,7 @@
 	},
 
 	"print": {
+		"dpi": 72,
 		"__json_comment__": "If you wanted to limit the amount of cards printed on a page, it would be done here:",
 		"max_cols": -1,
 		"max_rows": -1,

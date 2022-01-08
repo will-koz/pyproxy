@@ -14,8 +14,7 @@ _request_not_found_continue_code = 429
 config = False
 imagedb = []
 
-max_width = 0
-max_height = 0
+dimensions = []
 
 # ----------------------------------------------------------------------------------------------------
 # Functions
@@ -74,14 +73,17 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 			tmp_image_datum.append(get_card_image_from_api(card))
 		db.append(tmp_image_datum)
 
-def set_hard_maxes ():
-	max_width = math.floor((config["paper"]["width"] - config["paper"]["margin"]) / (config["card"]["width"] + config["paper"]["margin"]))
-	max_height = math.floor((config["paper"]["height"] - config["paper"]["margin"]) / (config["card"]["height"] + config["paper"]["margin"]))
-	if ((config["print"]["max_cols"] != -1) and (config["print"]["max_cols"] < max_width)):
-		max_width = config["print"]["max_cols"]
-	if ((config["print"]["max_rows"] != -1) and (config["print"]["max_rows"] < max_height)):
-		max_height = config["print"]["max_cols"]
-	print(max_width, max_height)
+def set_hard_maxes (set_dim = dimensions):
+	width = math.floor((config["paper"]["width"] - config["paper"]["margin"]) / (config["card"]["width"] + config["paper"]["margin"]))
+	height = math.floor((config["paper"]["height"] - config["paper"]["margin"]) / (config["card"]["height"] + config["paper"]["margin"]))
+	if ((config["print"]["max_cols"] != -1) and (config["print"]["max_cols"] < width)):
+		width = config["print"]["max_cols"]
+	if ((config["print"]["max_rows"] != -1) and (config["print"]["max_rows"] < height)):
+		height = config["print"]["max_cols"]
+	cardsperpage = width * height
+	set_dim.append(width)
+	set_dim.append(height)
+	set_dim.append(cardsperpage)
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -93,6 +95,7 @@ config = get_json(_json_configuration_file)
 
 parse_deck_to_image_db()
 set_hard_maxes()
+print(dimensions)
 
 for card in imagedb:
 	card[1] = get_image(card[1])

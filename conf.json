@@ -7,13 +7,14 @@
 	"paper": {
 		"__json_comment__": "This is supposed to be printed on copy paper, but if a different PDF size is desired it can be easily created",
 		"width": 8.5,
-		"height": 11
+		"height": 11,
+		"margin": 0.1
 	},
 
 	"card": {
 		"__json_comment__": "MTG Cards use this size. I'm pretty sure Pokemon and Yu-Gi-Oh use it, too",
-		"width": 3.5,
-		"height": 2.5
+		"width": 2.5,
+		"height": 3.5
 	},
 
 	"print": {

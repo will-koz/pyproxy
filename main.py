@@ -4,9 +4,11 @@ import json, math, os, requests, sys, time, urllib.request
 # ----------------------------------------------------------------------------------------------------
 # "Universal" variables
 
+_colp = (255, 255, 255)
 _deck_split_character = "\n"
 _json_configuration_file = "conf.json"
 _unspecified_json_warning = "No JSON config was specified. Defaulting to"
+
 _request_decode_format = "utf-8"
 _request_delay = 100 / 1000
 _request_not_found_continue_code = 429
@@ -16,6 +18,12 @@ imagedb = []
 dimensions = []
 
 outputPDF = []
+
+# ----------------------------------------------------------------------------------------------------
+
+current_col = 0
+current_row = 0
+current_page = 0
 
 # ----------------------------------------------------------------------------------------------------
 # Functions
@@ -35,6 +43,15 @@ def get_image (location):
 	except FileNotFoundError:
 		urllib.request.urlretrieve(location, config["api"]["tmp"])
 		return Image.open(config["api"]["tmp"])
+
+def add_card (image, pdf):
+	if len(pdf) <= current_page:
+		pdf.append(Image.new("RGB", (int(config["paper"]["width"] * config["print"]["dpi"]), int(config["paper"]["height"] * config["print"]["dpi"])), _colp))
+	card_width_dpi = int(config["card"]["width"] * config["print"]["dpi"])
+	card_height_dpi = int(config["card"]["height"] * config["print"]["dpi"])
+	x_position = int(current_col * (card_width_dpi + config["paper"]["margin"] * config["print"]["dpi"]) + config["paper"]["margin"] * config["print"]["dpi"])
+	y_position = int(current_row * (card_height_dpi + config["paper"]["margin"] * config["print"]["dpi"]) + config["paper"]["margin"] * config["print"]["dpi"])
+	pdf[-1].paste(image.resize((card_width_dpi, card_height_dpi)), (x_position, y_position))
 
 def atoi (x):
 	try:
@@ -100,5 +117,15 @@ print(dimensions)
 
 for card in imagedb:
 	card[1] = get_image(card[1])
+	for i in range(card[0]):
+		add_card(card[1], outputPDF)
+		current_col += 1
+		if current_col >= dimensions[0]:
+			current_col = 0
+			current_row += 1
+			if current_row >= dimensions[1]:
+				current_row = 0
+				outputPDF[-1].show()
+				current_page += 1
 
 os.remove(config["api"]["tmp"])

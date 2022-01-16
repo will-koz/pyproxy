@@ -1,7 +1,7 @@
 {
 	"__json_comment__": "JSON does not support comments, so comments will be in the fields named '__json_comment__', '__json_comment2__', etc...",
 
-	"deck": "deck2.txt",
+	"deck": "deck.txt",
 	"image_character": "~",
 
 	"paper": {
@@ -18,12 +18,10 @@
 	},
 
 	"print": {
-		"dpi": 72,
+		"dpi": 120,
 		"__json_comment__": "If you wanted to limit the amount of cards printed on a page, it would be done here:",
 		"max_cols": -1,
 		"max_rows": -1,
-		"print_mode": 1,
-		"__json_comment2__": "print_mode 0: upper-left, print_mode 1: center, print_mode 2: lower-right"
 	},
 
 	"api": {
@@ -33,6 +31,8 @@
 		"image_status_text": "highres_scan",
 		"postfix": "\"&unique=art",
 		"prefix": "https://api.scryfall.com/cards/search?q=!\"",
+
+		"__json_comment2__": "This doesn't need to be in api, but there isn't a better place for it, in my opinion.",
 		"tmp": "img.png"
 	}
 }

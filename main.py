@@ -20,6 +20,7 @@ dimensions = []
 outputPDF = []
 
 # ----------------------------------------------------------------------------------------------------
+# Less universal variables
 
 current_col = 0
 current_row = 0
@@ -125,9 +126,9 @@ for card in imagedb:
 			current_row += 1
 			if current_row >= dimensions[1]:
 				current_row = 0
-				outputPDF[-1].show()
 				current_page += 1
 
-outputPDF[0].save("output.pdf", save_all = True, append_images = outputPDF[1:])
+print("Outputting to " + config["output"])
+outputPDF[0].save(config["output"], save_all = True, append_images = outputPDF[1:])
 
 os.remove(config["api"]["tmp"])

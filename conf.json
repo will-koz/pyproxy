@@ -1,8 +1,9 @@
 {
 	"__json_comment__": "JSON does not support comments, so comments will be in the fields named '__json_comment__', '__json_comment2__', etc...",
 
-	"deck": "deck.txt",
+	"deck": "deck2.txt",
 	"image_character": "~",
+	"output": "output.pdf",
 
 	"paper": {
 		"__json_comment__": "This is supposed to be printed on copy paper, but if a different PDF size is desired it can be easily created",
@@ -18,7 +19,7 @@
 	},
 
 	"print": {
-		"dpi": 120,
+		"dpi": 270,
 		"__json_comment__": "If you wanted to limit the amount of cards printed on a page, it would be done here:",
 		"max_cols": -1,
 		"max_rows": -1

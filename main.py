@@ -128,4 +128,6 @@ for card in imagedb:
 				outputPDF[-1].show()
 				current_page += 1
 
+outputPDF[0].save("output.pdf", save_all = True, append_images = outputPDF[1:])
+
 os.remove(config["api"]["tmp"])

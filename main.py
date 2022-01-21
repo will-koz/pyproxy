@@ -1,20 +1,27 @@
+# Pyproxy: A Python Script to create MTG proxy PDFs
+# No libraries that aren't installed by default on Linux Mint
 from PIL import Image
 import json, math, os, requests, sys, time, urllib.request
 
 # ----------------------------------------------------------------------------------------------------
 # "Universal" variables
+# I call these universal variables because these are the variables that are
+# independent of the config.
 
 _colp = (255, 255, 255)
 _deck_split_character = "\n"
-_json_configuration_file = "conf.json"
+_json_configuration_file = "conf.json" # In this case, it actually is the config location
 _unspecified_json_warning = "No JSON config was specified. Defaulting to"
 
 _request_decode_format = "utf-8"
-_request_delay = 100 / 1000
+_request_delay = 100 / 1000 # The scryfall API docs recomend 50 milliseconds between requests.
+# I give 100 milliseconds because I'm usually not in a rush to have a proxy finish.
 _request_not_found_continue_code = 429
+# This number is next to useless. Network requests only return this in my tests from Reddit, which
+# would only be requested if an image from Reddit was specified.
 
 config = False
-imagedb = []
+imagedb = [] # Image database
 dimensions = []
 
 outputPDF = []
@@ -26,24 +33,32 @@ current_col = 0
 current_row = 0
 current_page = 0
 
+# This is the two dimensional location of the image being rendered at any given moment, and the page.
+
 # ----------------------------------------------------------------------------------------------------
 # Functions
 
-def get_json (location):
+def get_json (location): # Get JSON from either local storage or the Internet
 	try:
-		return json.load(open(location))
-	except FileNotFoundError:
+		return json.load(open(location)) # Most likely, the file will be a local one
+	except FileNotFoundError: # If it isn't a local file, search the Internet for the JSON
 		request = requests.get(location)
-		while request.status_code == _request_not_found_continue_code:
-			request = requests.get(location)
+		while request.status_code == _request_not_found_continue_code: # A do-while block would be better suited, but this is more readable
+			request = requests.get(location)                       # Oh yeah, and there isn't that in python
 		return json.loads(request.content.decode(_request_decode_format))
 
-def get_image (location):
+def get_image (location): # This is basically the same algorithm as get_json, but for images
 	try:
-		return Image.open(location)
-	except FileNotFoundError:
-		urllib.request.urlretrieve(location, config["api"]["tmp"])
-		return Image.open(config["api"]["tmp"])
+		return Image.open(location) # try to load image from local storage
+	except FileNotFoundError: # I don't like doing this, but this is slightly different than JSON
+		urllib.request.urlretrieve(location, config["api"]["tmp"]) # Put it into local storage
+		return Image.open(config["api"]["tmp"]) # and then load it from local storage
+
+# It's hard to believe this is the most readible way I figured out how to add an image to a pdf. In short, it
+# checks to see if the current page is initialized. If it isn't, then generate it. The render width is then
+# determined from the card size in inches multiplied by the pixels per inch. The position is calculated from
+# the margin, current row/column and dpi. Finally, it pastes the passed image to the PDF to the last page.
+# Another note: actual MTG cards are around 600 dpi, but 270 dpi is still an extraordinarily good image.
 
 def add_card (image, pdf):
 	if len(pdf) <= current_page:
@@ -54,11 +69,13 @@ def add_card (image, pdf):
 	y_position = int(current_row * (card_height_dpi + config["paper"]["margin"] * config["print"]["dpi"]) + config["paper"]["margin"] * config["print"]["dpi"])
 	pdf[-1].paste(image.resize((card_width_dpi, card_height_dpi)), (x_position, y_position))
 
-def atoi (x):
-	try:
+def atoi (x): # This converts strings to integers. The name comes from the C function which does roughly the same thing
+	try: # try to cast x to an integer and return it.
 		return int(x)
-	except ValueError:
+	except ValueError: # The important thing for this application is that if there is an error, it returns -1
 		return -1
+
+# 
 
 def get_card_image_from_api (card_name, api_config = False):
 	if api_config == False:

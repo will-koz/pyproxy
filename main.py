@@ -75,7 +75,7 @@ def atoi (x): # This converts strings to integers. The name comes from the C fun
 	except ValueError: # The important thing for this application is that if there is an error, it returns -1
 		return -1
 
-# 
+# Using the API configuration and a card name, get a URL to an image using the Scryfall REST API
 
 def get_card_image_from_api (card_name, api_config = False):
 	if api_config == False:

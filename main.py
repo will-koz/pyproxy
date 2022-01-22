@@ -82,8 +82,8 @@ def get_card_image_from_api (card_name, api_config = False):
 		api_config = config["api"]
 	time.sleep(_request_delay) # <== This is the important line to make sure we comply with the API docs
 	json_array = get_json(api_config["prefix"] + card_name.replace(api_config["infix_replace"], api_config["infix"]) + api_config["postfix"])["data"]
-	for card_object in json_array:
-		if card_object["image_status"] == api_config["image_status_text"]:
+	for card_object in json_array: # This loop makes sure the card is a high quality card, because sometimes lowres images are
+		if card_object["image_status"] == api_config["image_status_text"]: # uploaded to Scryfall before they are published.
 			return card_object["image_uris"]["large"]
 
 def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):

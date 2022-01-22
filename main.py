@@ -80,7 +80,7 @@ def atoi (x): # This converts strings to integers. The name comes from the C fun
 def get_card_image_from_api (card_name, api_config = False):
 	if api_config == False:
 		api_config = config["api"]
-	time.sleep(_request_delay)
+	time.sleep(_request_delay) # <== This is the important line to make sure we comply with the API docs
 	json_array = get_json(api_config["prefix"] + card_name.replace(api_config["infix_replace"], api_config["infix"]) + api_config["postfix"])["data"]
 	for card_object in json_array:
 		if card_object["image_status"] == api_config["image_status_text"]:

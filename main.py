@@ -1,3 +1,5 @@
+#!/bin/python3
+
 # Pyproxy: A Python Script to create MTG proxy PDFs
 # No libraries that aren't installed by default on Linux Mint
 from PIL import Image
@@ -91,23 +93,27 @@ def parse_deck_to_image_db (deck = False, ic = False, db = imagedb):
 		deck = config["deck"]
 	if ic == False:
 		ic = config["image_character"]
-	deck = open(deck).read().split(_deck_split_character)[:-1]
-	db.clear()
+	deck = open(deck).read().split(_deck_split_character)[:-1] # open the deck line by line
+	db.clear() # make sure the database is clear before beginning parsing the deck
 	for card in deck:
 		tmp_image_datum = []
-		count = atoi(card.split(" ")[0])
-		" ".join(card)
+		count = atoi(card.split(" ")[0]) # try to interpret the beginning of the line as the number of cards. Defaults to 1
 		tmp_image_datum.append(count if count > 0 else 1)
-		if count > 0:
+		if count > 0: # remove the count from the beginning of the line, if it exists
 			card = " ".join(card.split(" ")[1:])
 		print(card)
-		if card.split(" ")[-1][0] == ic:
+		if card.split(" ")[-1][0] == ic: # if the image is specified with a URI, use it
 			" ".join(card)
 			tmp_image_datum.append(card.split(" ")[-1][1:])
-		else:
+		else: # otherwise, use the URL from the scryfall API
 			" ".join(card)
 			tmp_image_datum.append(get_card_image_from_api(card))
-		db.append(tmp_image_datum)
+		db.append(tmp_image_datum) # Finally, add this data to the database
+
+# set_hard_maxes is where a lot of the errors could come from, which is why it looks so convolunted.
+# really, it just finds the final dimensions to render the PDF at, but it needs to make sure a final
+# PDF could be printed with the numbers passed to it in the config. Finally, it will append that to
+# a dimensions variable which will later be used by the appender.
 
 def set_hard_maxes (set_dim = dimensions):
 	width = math.floor((config["paper"]["width"] - config["paper"]["margin"]) / (config["card"]["width"] + config["paper"]["margin"]))
@@ -116,12 +122,15 @@ def set_hard_maxes (set_dim = dimensions):
 		width = config["print"]["max_cols"]
 	if ((config["print"]["max_rows"] != -1) and (config["print"]["max_rows"] < height)):
 		height = config["print"]["max_cols"]
-	cardsperpage = width * height
+	cardsperpage = width * height # This is not hard to do in your head and it isn't used, but it is nice to give back to the user.
 	set_dim.append(width)
 	set_dim.append(height)
 	set_dim.append(cardsperpage)
 
 # ----------------------------------------------------------------------------------------------------
+
+# Start by making sure a config is specified. If it isn't it will default to the
+# _json_configuration_file variable.
 
 try:
 	_json_configuration_file = sys.argv[1]
@@ -129,14 +138,15 @@ except:
 	print(_unspecified_json_warning, _json_configuration_file)
 config = get_json(_json_configuration_file)
 
-parse_deck_to_image_db()
-set_hard_maxes()
-print(dimensions)
+parse_deck_to_image_db() # Parse the deck
+set_hard_maxes() # Find the render dimensions
+print(dimensions) # Print the dimensions. This is really helpful for debugging.
 
+# Render the images to the PDF. Then, update the column / row / page.
 for card in imagedb:
 	card[1] = get_image(card[1])
 	for i in range(card[0]):
-		add_card(card[1], outputPDF)
+		add_card(card[1], outputPDF) # <== This is the important line
 		current_col += 1
 		if current_col >= dimensions[0]:
 			current_col = 0
@@ -145,7 +155,10 @@ for card in imagedb:
 				current_row = 0
 				current_page += 1
 
+# Output the PDF to local storage
 print("Outputting to " + config["output"])
 outputPDF[0].save(config["output"], save_all = True, append_images = outputPDF[1:])
 
+# Remove the temporary image. Could be saved to /tmp/, but most users would use some variant of
+# Windows rather than Unix/Unix-like OSes
 os.remove(config["api"]["tmp"])

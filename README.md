@@ -29,6 +29,12 @@ But of course, credit goes to the artists of all of the cards, Wizards of the Co
 - [x] Export PDFs
 - [ ] Add CLI Options / Clean Up Code / Add Comments
 
+## License
+
+The contents of the image files used by Pyproxy are not licensed by the creators of Pyproxy, and
+neither are the pieces of the logo of Pyproxy. Every other part of the Pyproxy project is licensed
+under the MIT license.
+
 ## Logo Credits
 
 The Logo uses parts from these images:

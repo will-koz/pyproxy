@@ -8,6 +8,10 @@ A Python implementation of a MTG (or any card game, with a bit of tinkering) Pro
 
 `git clone` this repository, and run with `python3 main.py`. It defaults to running with conf.json, but you can change the configuration by running `python3 main.py conf2.json`, or whatever your configuration file is called.
 
+## Notes
+
+Do not have empty lines in the decklist. This bug might be fixed later, or it might not be.
+
 ## Images Used
 
 In the demomonstration deck, demo.txt, two files I did not create are explicitly:

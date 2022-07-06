@@ -1,0 +1,10 @@
+# Reminder that the gitignore file is a list of files that are not tracked by git
+
+# Format for decklists that are not part of the repo
+*.deck.txt
+
+# Same thing, but for custom config files
+*.conf.json
+
+# Also, do not track the final pdf
+output.pdf

@@ -42,7 +42,7 @@ current_page = 0
 
 def get_json (location): # Get JSON from either local storage or the Internet
 	try:
-		return json.load(open(location)) # Most likely, the file will be a local one
+		return json.load(open(location, "r")) # Most likely, the file will be a local one
 	except FileNotFoundError: # If it isn't a local file, search the Internet for the JSON
 		request = requests.get(location)
 		while request.status_code == _request_not_found_continue_code: # A do-while block would be better suited, but this is more readable

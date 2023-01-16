@@ -53,7 +53,10 @@ def get_image (location): # This is basically the same algorithm as get_json, bu
 	try:
 		return Image.open(location) # try to load image from local storage
 	except FileNotFoundError: # I don't like doing this, but this is slightly different than JSON
-		urllib.request.urlretrieve(location, config["api"]["tmp"]) # Put it into local storage
+		location = location.split("?")[0]
+		r = requests.get(location, allow_redirects = True)
+		open(config["api"]["tmp"], 'wb').write(r.content)
+		# urllib.request.urlretrieve(location, config["api"]["tmp"]) # Put it into local storage
 		return Image.open(config["api"]["tmp"]) # and then load it from local storage
 
 # It's hard to believe this is the most readible way I figured out how to add an image to a pdf. In short, it
